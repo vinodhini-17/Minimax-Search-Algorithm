@@ -1,7 +1,7 @@
-<h1>ExpNo 5 : Implement Minimax Search Algorithm for a Simple TIC-TAC-TOE game</h1> 
-<h3>Name:           </h3>
-<h3>Register Number/Staff Id:          </h3>
-<H3>Aim:</H3>
+<h1>ExpNo 6: Implement Minimax Search Algorithm for a Simple TIC-TAC-TOE game</h1> 
+<h3>Name: VINODHINI K    </h3>
+<h3>Register Number: 212223230245          </h3>
+<H3>Aim:</H3
 <p>
     Implement Minimax Search Algorithm for a Simple TIC-TAC-TOE game
 </p>
@@ -75,7 +75,7 @@ end
 Simple enough, return +10 if the current player wins the game, -10 if the other player wins and 0 for a draw. You will note that who the player is doesn't matter. X or O is irrelevant, only who's turn it happens to be.
 
 And now the actual minimax algorithm; note that in this implementation a choice or move is simply a row / column address on the board, for example [0,2] is the top right square on a 3x3 board.
-
+```
 def minimax(game)
     return score(game) if game.over?
     scores = [] # an array of scores
@@ -101,8 +101,45 @@ def minimax(game)
         return scores[min_score_index]
     end
 end
+```
+<h3>Program:</h3>
 
-<hr>
+```python
+import math
+
+def minimax(curDepth, nodeIndex, maxTurn, scores, targetDepth, alpha, beta):
+    # Base case: targetDepth reached
+    if curDepth == targetDepth:
+        return scores[nodeIndex]
+
+    if maxTurn:
+        maxEval = -math.inf  # Initialize maximum evaluation
+        # Maximizing player's turn
+        for i in range(2):  # There are two children for each node
+            eval = minimax(curDepth + 1, nodeIndex * 2 + i, False, scores, targetDepth, alpha, beta)
+            maxEval = max(maxEval, eval)
+            alpha = max(alpha, eval)  # Update alpha
+            if beta <= alpha:  # Beta pruning
+                break
+        return maxEval
+    else:
+        minEval = math.inf  # Initialize minimum evaluation
+        # Minimizing player's turn
+        for i in range(2):  # There are two children for each node
+            eval = minimax(curDepth + 1, nodeIndex * 2 + i, True, scores, targetDepth, alpha, beta)
+            minEval = min(minEval, eval)
+            beta = min(beta, eval)  # Update beta
+            if beta <= alpha:  # Alpha pruning
+                break
+        return minEval
+
+ scores = [3, 5, 6, 9, 1, 2, 0, -1]
+    targetDepth = 3  # Example target depth
+
+    # Start Minimax from the root with initial alpha and beta values
+    best_value = minimax(0, 0, True, scores, targetDepth, -math.inf, math.inf)
+    print("The optimal value is:", best_value)
+```
 <h2>Sample Input and Output</h2>
 
 ![image](https://github.com/natsaravanan/19AI405FUNDAMENTALSOFARTIFICIALINTELLIGENCE/assets/87870499/6b668685-8bcc-43c5-b5c2-ddd43f3da84a)
